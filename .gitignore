@@ -1,76 +1,25 @@
-# -- Python --------------------------------------------------------------------
+# Python
 __pycache__/
 *.py[cod]
-*$py.class
 *.pyo
-*.pyd
 
-# -- Virtual environments -------------------------------------------------------
-.venv/
+# Virtual environments
 venv/
+.venv/
 env/
-ENV/
+
+# Environment variables and secrets
 .env
+.env.*
 
-# -- Distribution / packaging ---------------------------------------------------
-dist/
-build/
-*.egg-info/
-*.egg
-.eggs/
-MANIFEST
+# Django
+db.sqlite3
+media/
 
-# -- Streamlit -----------------------------------------------------------------
-.streamlit/secrets.toml
-
-# -- Jupyter / IPython ---------------------------------------------------------
-.ipynb_checkpoints/
-*.ipynb
-
-# -- Plotly / pyvis cache ------------------------------------------------------
-*.html.tmp
-
-# -- Testing & coverage --------------------------------------------------------
-.pytest_cache/
-.coverage
-htmlcov/
-coverage.xml
-*.coveragerc
-
-# -- Type checkers / linters ---------------------------------------------------
-.mypy_cache/
-.ruff_cache/
-.pytype/
-
-# -- OS artefacts --------------------------------------------------------------
-.DS_Store
-Thumbs.db
-desktop.ini
-
-# -- IDEs ----------------------------------------------------------------------
+# IDE
 .vscode/
 .idea/
-*.swp
-*.swo
 
-# -- Logs & runtime output -----------------------------------------------------
-*.log
-logs/
-
-# -- Secrets & credentials -----------------------------------------------------
-.env*
-!.env.example
-secrets.toml
-*.pem
-*.key
-
-# -- Data / uploads (keep requirements.txt tracked) ----------------------------
-*.csv
-*.xlsx
-*.parquet
-uploads/
-data/
-
-# -- Misc ----------------------------------------------------------------------
-.bob/
-tmp/
+# Operating system
+.DS_Store
+Thumbs.db
