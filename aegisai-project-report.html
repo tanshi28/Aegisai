@@ -1,0 +1,1039 @@
+
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AegisAI — Project Report</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.65;
+    color: #1f2328;
+    background: #ffffff;
+  }
+
+  .page {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 48px 32px 64px;
+  }
+
+  /* Cover */
+  .cover {
+    text-align: center;
+    padding: 48px 0 40px;
+    border-bottom: 2px solid #e5e7eb;
+    margin-bottom: 40px;
+  }
+  .cover .badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #3b82d4;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 18px;
+  }
+  .cover h1 {
+    font-size: 28px;
+    font-weight: 800;
+    color: #1f2328;
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+  }
+  .cover .tagline {
+    font-size: 13px;
+    color: #57606a;
+    font-style: italic;
+    margin-bottom: 28px;
+  }
+  .cover-meta {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    font-size: 12px;
+    color: #57606a;
+  }
+  .cover-meta span strong {
+    color: #1f2328;
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 2px;
+  }
+
+  /* TOC */
+  .toc {
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 40px;
+  }
+  .toc h2 {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #57606a;
+    margin-bottom: 14px;
+  }
+  .toc ol {
+    list-style: decimal;
+    padding-left: 20px;
+  }
+  .toc ol li {
+    font-size: 13px;
+    color: #1f2328;
+    margin-bottom: 5px;
+  }
+  .toc ol li span {
+    color: #57606a;
+    font-size: 12px;
+    margin-left: 6px;
+  }
+
+  /* Sections */
+  section {
+    margin-bottom: 44px;
+  }
+  .section-number {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #3b82d4;
+    margin-bottom: 4px;
+  }
+  h2.section-title {
+    font-size: 19px;
+    font-weight: 700;
+    color: #1f2328;
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 8px;
+    margin-bottom: 18px;
+  }
+  h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1f2328;
+    margin: 20px 0 8px;
+  }
+  p {
+    color: #1f2328;
+    margin-bottom: 12px;
+    font-size: 14px;
+  }
+  ul, ol {
+    padding-left: 20px;
+    margin-bottom: 12px;
+  }
+  li {
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #1f2328;
+  }
+
+  /* Tables */
+  .table-wrap { overflow-x: auto; margin-bottom: 16px; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  thead tr {
+    background: #f7f8fa;
+  }
+  th {
+    text-align: left;
+    padding: 9px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #57606a;
+    border-bottom: 2px solid #e5e7eb;
+  }
+  td {
+    padding: 9px 12px;
+    border-bottom: 1px solid #e5e7eb;
+    vertical-align: top;
+    color: #1f2328;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #f7f8fa; }
+
+  /* Decision badges */
+  .badge-block { display:inline-block; background:#fef2f2; border:1px solid #fecaca; color:#b91c1c; font-size:10px; font-weight:700; padding:2px 8px; border-radius:12px; letter-spacing:0.05em; }
+  .badge-flag  { display:inline-block; background:#fffbeb; border:1px solid #fde68a; color:#92400e; font-size:10px; font-weight:700; padding:2px 8px; border-radius:12px; letter-spacing:0.05em; }
+  .badge-allow { display:inline-block; background:#f0fdf4; border:1px solid #bbf7d0; color:#15803d; font-size:10px; font-weight:700; padding:2px 8px; border-radius:12px; letter-spacing:0.05em; }
+  .badge-high  { display:inline-block; background:#fef2f2; border:1px solid #fecaca; color:#b91c1c; font-size:10px; font-weight:600; padding:2px 8px; border-radius:12px; }
+  .badge-med   { display:inline-block; background:#fffbeb; border:1px solid #fde68a; color:#92400e; font-size:10px; font-weight:600; padding:2px 8px; border-radius:12px; }
+  .badge-low   { display:inline-block; background:#f0fdf4; border:1px solid #bbf7d0; color:#15803d; font-size:10px; font-weight:600; padding:2px 8px; border-radius:12px; }
+
+  /* Call-out boxes */
+  .callout {
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 16px;
+    font-size: 13px;
+  }
+  .callout-info  { background: #eff6ff; border-left: 4px solid #3b82d4; }
+  .callout-warn  { background: #fffbeb; border-left: 4px solid #f59e0b; }
+  .callout-limit { background: #f7f8fa; border-left: 4px solid #94a3b8; }
+
+  /* Architecture diagram */
+  .arch-box {
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 22px 24px;
+    font-size: 12.5px;
+    font-family: "Consolas", "Menlo", monospace;
+    line-height: 1.75;
+    color: #1f2328;
+    margin-bottom: 16px;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  /* Flow diagram SVG-style boxes */
+  .flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 18px 0;
+  }
+  .flow-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  .flow-step:last-child { border-bottom: none; }
+  .flow-num {
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #3b82d4;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .flow-content strong {
+    display: block;
+    font-size: 13px;
+    color: #1f2328;
+    margin-bottom: 2px;
+  }
+  .flow-content span {
+    font-size: 12.5px;
+    color: #57606a;
+  }
+
+  /* KPI mini cards */
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .kpi {
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 14px 12px;
+    text-align: center;
+  }
+  .kpi .kpi-val {
+    font-size: 24px;
+    font-weight: 800;
+    color: #3b82d4;
+    display: block;
+    line-height: 1.1;
+  }
+  .kpi .kpi-lbl {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #57606a;
+    margin-top: 4px;
+    display: block;
+  }
+
+  /* Module cards */
+  .module-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .module-card {
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .module-card h4 {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1f2328;
+    margin-bottom: 5px;
+  }
+  .module-card p {
+    font-size: 12px;
+    color: #57606a;
+    margin: 0;
+  }
+
+  /* Divider */
+  hr { border: none; border-top: 1px solid #e5e7eb; margin: 36px 0; }
+
+  /* Footer */
+  .footer {
+    border-top: 1px solid #e5e7eb;
+    padding-top: 18px;
+    text-align: center;
+    font-size: 11px;
+    color: #94a3b8;
+    margin-top: 56px;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  
+  <div class="cover">
+    <div class="badge">Project Report</div>
+    <h1>AegisAI</h1>
+    <p class="tagline">"Secure Every Prompt. Control Every Action. Protect Every Data Flow."</p>
+    <div style="font-size:15px;color:#57606a;margin-bottom:28px;max-width:520px;margin-left:auto;margin-right:auto">
+      Unified Security Framework for AI Chatbots and Agents
+    </div>
+    <div class="cover-meta">
+      <span><strong>Platform</strong>Streamlit (Python)</span>
+      <span><strong>Type</strong>Prototype / Demo</span>
+      <span><strong>Version</strong>v1.1</span>
+      <span><strong>Environment</strong>Demo (Simulated Data)</span>
+      <span><strong>Codebase</strong>Single file — app.py</span>
+    </div>
+  </div>
+
+  
+  <div class="toc">
+    <h2>Table of Contents</h2>
+    <ol>
+      <li>Executive Summary</li>
+      <li>Problem Statement</li>
+      <li>Project Objectives</li>
+      <li>System Architecture</li>
+      <li>Core Modules and Features</li>
+      <li>Security Detection Engine &amp; Rule Set</li>
+      <li>Sensitive Data Detection and Redaction</li>
+      <li>Trust Graph Model</li>
+      <li>Analytics and Evaluation Lab</li>
+      <li>Technology Stack</li>
+      <li>Sample Data Overview</li>
+      <li>Request Flow through the Policy Engine</li>
+      <li>Current Limitations</li>
+      <li>Future Improvements</li>
+      <li>Conclusion</li>
+      <li>Appendix — Changelog</li>
+    </ol>
+  </div>
+
+  
+  <section>
+    <div class="section-number">Section 1</div>
+    <h2 class="section-title">Executive Summary</h2>
+    <p>
+      AegisAI is a demonstration platform built to illustrate how a unified, rule-based security policy
+      engine can be applied to AI-driven interactions. It targets two primary attack surfaces: AI chatbot
+      prompts and autonomous AI agent actions. The platform provides real-time policy evaluation, sensitive
+      data scanning and redaction, component trust-relationship visualisation, and aggregated analytics — all
+      within a single Streamlit dashboard.
+    </p>
+    <p>
+      The project is implemented entirely in Python using Streamlit, pandas, Plotly, and pyvis. All data
+      is simulated; no real AI models, external APIs, or databases are used. AegisAI serves as a teaching
+      and prototyping tool for AI security concepts, demonstrating how detection logic, trust modelling,
+      and policy enforcement can be layered together.
+    </p>
+
+    <div class="kpi-row">
+      <div class="kpi"><span class="kpi-val">8</span><span class="kpi-lbl">Nav Pages</span></div>
+      <div class="kpi"><span class="kpi-val">7</span><span class="kpi-lbl">Policy Rules</span></div>
+      <div class="kpi"><span class="kpi-val">250</span><span class="kpi-lbl">Sample Events</span></div>
+      <div class="kpi"><span class="kpi-val">6</span><span class="kpi-lbl">Regex Patterns</span></div>
+    </div>
+    <div class="kpi-row" style="margin-top:0;">
+      <div class="kpi"><span class="kpi-val">60</span><span class="kpi-lbl">Eval Tests</span></div>
+      <div class="kpi"><span class="kpi-val">45+</span><span class="kpi-lbl">Jailbreak Phrases</span></div>
+      <div class="kpi"><span class="kpi-val">70+</span><span class="kpi-lbl">Extraction Phrases</span></div>
+      <div class="kpi"><span class="kpi-val">100%</span><span class="kpi-lbl">Test Pass Rate</span></div>
+    </div>
+  </section>
+
+  
+  <section>
+    <div class="section-number">Section 2</div>
+    <h2 class="section-title">Problem Statement</h2>
+    <p>
+      As AI chatbots and autonomous agents are deployed in more enterprise and consumer settings, they
+      introduce attack surfaces that traditional security tooling was not designed to address. Key threats
+      include:
+    </p>
+    <ul>
+      <li><strong>Prompt Injection &amp; Jailbreaking</strong> — Malicious inputs crafted to override an AI model's instructions or safety guidelines.</li>
+      <li><strong>Sensitive Information Extraction</strong> — Prompts designed to make the AI reveal its system prompt, internal configuration, or confidential data.</li>
+      <li><strong>Unauthorised Resource Access</strong> — Agents autonomously accessing files, databases, or tools they have not been granted permission to use.</li>
+      <li><strong>Uncontrolled Data Transfers</strong> — Agents sending data to unapproved external endpoints, risking exfiltration.</li>
+      <li><strong>Credential Exposure</strong> — API keys, passwords, and tokens inadvertently included in prompts or agent outputs.</li>
+      <li><strong>Reconnaissance Attempts</strong> — Queries intended to enumerate internal users, systems, or data structures.</li>
+    </ul>
+    <p>
+      Most existing security products focus on network traffic, application logs, or code vulnerabilities.
+      They do not inspect the semantic content of AI prompts and responses, nor do they model the trust
+      boundaries between AI components. AegisAI demonstrates how these gaps can be addressed with a
+      lightweight, rule-based policy layer.
+    </p>
+  </section>
+
+  
+  <section>
+    <div class="section-number">Section 3</div>
+    <h2 class="section-title">Project Objectives</h2>
+    <ul>
+      <li>Demonstrate how rule-based security policies can be applied to AI chatbot prompts and autonomous agent actions.</li>
+      <li>Show how sensitive-data detection and redaction can be integrated into an AI processing pipeline.</li>
+      <li>Visualise component trust relationships and permission boundaries using an interactive graph model.</li>
+      <li>Provide an interactive Security Playground for testing and demonstrating policy rules in real time.</li>
+      <li>Collect and display evaluation results in a unified analytics dashboard with filtering and charting.</li>
+      <li>Serve as a teaching and demonstration tool for AI security concepts.</li>
+    </ul>
+    <div class="callout callout-info">
+      <strong>Scope note:</strong> This is a prototype built with simulated data. It does not connect to real AI models,
+      real files, external services, or production systems. All events, users, and resources are fictional.
+    </div>
+  </section>
+
+  
+  <section>
+    <div class="section-number">Section 4</div>
+    <h2 class="section-title">System Architecture</h2>
+    <p>
+      The entire application is contained in a single file — <code>app.py</code> — structured as a series
+      of logically separated sections. Navigation between pages is driven by Streamlit session state
+      (<code>st.session_state.active_page</code>), giving a multi-page feel within a single-page app.
+    </p>
+    <div class="arch-box">app.py
+│
+├── Global session-state initialisation
+├── CSS / dark theme
+├── Sample data  (SAMPLE_EVENTS + generate_sample_data())
+│
+├── Security Detection Engine
+│   ├── evaluate_security_event()   ← core rule evaluator (Rules A–G)
+│   └── evaluate_all_events()       ← batch runner for the sample DataFrame
+│
+├── Unified Policy Engine
+│   ├── unified_policy_check()      ← combines Sentinel + engine + TrustGraph
+│   └── log_event()                 ← writes to session_state.security_log
+│
+├── ShadowAI Sentinel
+│   ├── _SENSITIVE_PATTERNS         ← compiled regex list (6 patterns)
+│   ├── detect_sensitive_data()     ← scanner + redactor
+│   └── redact_sensitive_data()     ← convenience wrapper
+│
+├── TrustGraph AI
+│   ├── TRUST_NODES / TRUST_EDGES   ← fictional graph data
+│   ├── build_trust_graph_html()    ← pyvis graph → HTML string
+│   └── get_permission_findings()   ← identifies unsafe edges
+│
+├── Sidebar navigation (session-state driven, 8 pages)
+└── Page renderers (one elif block per page)</div>
+
+    <h3>Data Flow Overview</h3>
+    <p>Three separate data sources are maintained in session state and merged for analytics:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Source</th><th>Key in session_state</th><th>How Populated</th></tr></thead>
+        <tbody>
+          <tr><td>Raw sample events</td><td><code>events_df</code></td><td>Generate Sample Data button on Overview page</td></tr>
+          <tr><td>Engine-evaluated events</td><td><code>evaluated_df</code></td><td>Re-evaluate Security Events button on Overview page</td></tr>
+          <tr><td>Live playground/sentinel log</td><td><code>security_log</code></td><td>Appended on every interactive policy check via <code>log_event()</code></td></tr>
+          <tr><td>Evaluation lab results</td><td><code>eval_lab_results</code></td><td>Run Evaluation Suite button on Analytics page</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  
+  <section>
+    <div class="section-number">Section 5</div>
+    <h2 class="section-title">Core Modules and Features</h2>
+
+    <div class="module-grid">
+      <div class="module-card">
+        <h4>Overview Dashboard</h4>
+        <p>KPI cards (Total Events, Threats, Blocked, Sensitive Alerts), sample event table, detection results, Security Event Log, and a step-by-step Guided Security Demo.</p>
+      </div>
+      <div class="module-card">
+        <h4>Security Playground</h4>
+        <p>Interactive sandbox with three tabs: Chatbot Security (test prompts), AgentGuard (simulate agent actions), and ShadowAI Sentinel (scan text for sensitive data).</p>
+      </div>
+      <div class="module-card">
+        <h4>AgentGuard</h4>
+        <p>Controls and evaluates AI agent actions. Enforces allow/deny policy using Rules C, E, F, and G. Exposes resource authorisation and destination approval controls.</p>
+      </div>
+      <div class="module-card">
+        <h4>ShadowAI Sentinel</h4>
+        <p>Detects and redacts sensitive data (emails, passwords, API keys, tokens, card numbers). Integrates with Data Transfer Safety Check to prevent exfiltration.</p>
+      </div>
+      <div class="module-card">
+        <h4>TrustGraph AI</h4>
+        <p>Interactive pyvis network graph of AI components, tools, and data stores. Permission Analysis flags unsafe edges. Component Details shows per-node connections.</p>
+      </div>
+      <div class="module-card">
+        <h4>Analytics</h4>
+        <p>Four Plotly charts (Decision donut, Risk donut, Events by Component bar, Top Rules bar), KPI cards, interactive filters, and the Security Evaluation Lab.</p>
+      </div>
+      <div class="module-card">
+        <h4>Chatbot Security</h4>
+        <p>Dedicated page (placeholder) for advanced chatbot-specific security controls — planned for a future development stage.</p>
+      </div>
+      <div class="module-card">
+        <h4>Security Alerts</h4>
+        <p>Placeholder for a future dedicated real-time alert feed and notification system.</p>
+      </div>
+    </div>
+  </section>
+
+  
+  <section>
+    <div class="section-number">Section 6</div>
+    <h2 class="section-title">Security Detection Engine &amp; Rule Set</h2>
+    <p>
+      The core detection function <code>evaluate_security_event()</code> evaluates a single event against
+      an ordered set of rules. Rules are applied in priority sequence — once a <strong>BLOCK</strong>
+      decision is set, no lower-priority rule can downgrade it.
+    </p>
+    <p>
+      Priority map: <code>BLOCK (2) &gt; FLAG (1) &gt; ALLOW (0)</code>
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Rule</th><th>Trigger Condition</th><th>Decision</th><th>Risk</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Rule C</strong></td>
+            <td>AI Agent + resource not on approved list</td>
+            <td><span class="badge-block">BLOCK</span></td>
+            <td><span class="badge-high">HIGH</span></td>
+          </tr>
+          <tr>
+            <td><strong>Rule E</strong></td>
+            <td>AI Agent + destination not on approved list</td>
+            <td><span class="badge-block">BLOCK</span></td>
+            <td><span class="badge-high">HIGH</span></td>
+          </tr>
+          <tr>
+            <td><strong>Rule G (unapproved)</strong></td>
+            <td>AI Agent + sensitive data + unapproved destination</td>
+            <td><span class="badge-block">BLOCK</span></td>
+            <td><span class="badge-high">HIGH</span></td>
+          </tr>
+          <tr>
+            <td><strong>Rule G (approved)</strong></td>
+            <td>AI Agent + sensitive data + approved destination</td>
+            <td><span class="badge-flag">FLAG</span></td>
+            <td><span class="badge-high">HIGH</span></td>
+          </tr>
+          <tr>
+            <td><strong>Rule D</strong></td>
+            <td>Simulated API key / credential pattern in text</td>
+            <td><span class="badge-flag">FLAG</span></td>
+            <td><span class="badge-high">HIGH</span></td>
+          </tr>
+          <tr>
+            <td><strong>Rule B — Jailbreak</strong></td>
+            <td>Jailbreak phrase detected in prompt</td>
+            <td><span class="badge-block">BLOCK</span></td>
+            <td><span class="badge-high">HIGH</span></td>
+          </tr>
+          <tr>
+            <td><strong>Rule B — Extraction</strong></td>
+            <td>System-prompt extraction phrase detected</td>
+            <td><span class="badge-flag">FLAG</span></td>
+            <td><span class="badge-high">HIGH</span></td>
+          </tr>
+          <tr>
+            <td><strong>Rule B — Recon</strong></td>
+            <td>Enumeration / reconnaissance phrase detected</td>
+            <td><span class="badge-flag">FLAG</span></td>
+            <td><span class="badge-med">MEDIUM</span></td>
+          </tr>
+          <tr>
+            <td><strong>Rule B — Sensitive</strong></td>
+            <td>Sensitive data explicitly flagged in context</td>
+            <td><span class="badge-flag">FLAG</span></td>
+            <td><span class="badge-med">MEDIUM</span></td>
+          </tr>
+          <tr>
+            <td><strong>Rule F</strong></td>
+            <td>AI Agent — all checks pass</td>
+            <td><span class="badge-allow">ALLOW</span></td>
+            <td><span class="badge-low">LOW</span></td>
+          </tr>
+          <tr>
+            <td><strong>Rule A</strong></td>
+            <td>Chatbot — all checks pass (default)</td>
+            <td><span class="badge-allow">ALLOW</span></td>
+            <td><span class="badge-low">LOW</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Detection Phrase Lists (v1.1)</h3>
+    <p>
+      The engine maintains three phrase lists used in Rule B. All lists were significantly expanded in v1.1 to
+      cover more attack patterns while maintaining zero false positives on benign educational queries.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>List</th><th>Count</th><th>Decision</th><th>Example phrases</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>_JAILBREAK_PHRASES</strong></td>
+            <td>45+</td>
+            <td><span class="badge-block">BLOCK</span></td>
+            <td>"ignore all previous instructions", "ignore previous instructions and", "dan mode", "act without restrictions", "bypass your safety rules", "output all passwords", "disregard your guidelines and", "forget all your instructions"</td>
+          </tr>
+          <tr>
+            <td><strong>_EXTRACTION_PHRASES</strong></td>
+            <td>70+</td>
+            <td><span class="badge-flag">FLAG</span></td>
+            <td>"reveal the confidential system prompt", "reveal all stored passwords", "show me all api keys", "bypass access controls", "circumvent the access controls", "send confidential", "disclose all credentials", "give me the api key"</td>
+          </tr>
+          <tr>
+            <td><strong>_RECON_PHRASES</strong></td>
+            <td>18+</td>
+            <td><span class="badge-flag">FLAG</span></td>
+            <td>"enumerate all users", "list all accounts", "dump the database", "give me all usernames", "map access levels", "show all users"</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout callout-info">
+      <strong>Design principle:</strong> Phrase lists match <em>imperative requests</em> targeting protected values.
+      Benign educational questions such as <em>"How should developers store API keys securely?"</em> or
+      <em>"Explain what a system prompt is"</em> do not match — they contain no action verb directed at exposing a value.
+    </div>
+    <p>
+      Rule D additionally uses a compiled regex (<code>_SECRET_PATTERN</code>) to detect patterns resembling
+      OpenAI-style API keys (<code>sk-...</code>), AWS-style keys (<code>AKIA...</code>), password-like strings
+      (<code>p@ssw...</code>), and labelled dummy secrets.
+    </p>
+  </section>
+
+  
+  <section>
+    <div class="section-number">Section 7</div>
+    <h2 class="section-title">Sensitive Data Detection and Redaction</h2>
+    <p>
+      <code>detect_sensitive_data(text)</code> applies six compiled regular expressions to the input text.
+      Matched values are replaced in-place with labelled placeholders. The original matched values are
+      <strong>never stored</strong> in the event log — <code>log_event()</code> always stores the redacted copy.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Category</th><th>Pattern Approach</th><th>Redaction Placeholder</th></tr></thead>
+        <tbody>
+          <tr><td>Email Address</td><td>RFC-like <code>user@domain.tld</code></td><td><code>[REDACTED EMAIL]</code></td></tr>
+          <tr><td>Phone Number</td><td>US 10-digit with optional country code</td><td><code>[REDACTED PHONE]</code></td></tr>
+          <tr><td>Password Assignment</td><td><code>password=...</code> / <code>passwd:...</code> + 4+ char value</td><td><code>[REDACTED PASSWORD]</code></td></tr>
+          <tr><td>API Key / Credential</td><td><code>sk-...</code> (OpenAI-style), <code>AKIA...</code> (AWS-style), <code>api_key=...</code></td><td><code>[REDACTED API KEY]</code></td></tr>
+          <tr><td>Secret / Token</td><td><code>secret=...</code>, <code>bearer=...</code>, <code>auth_token=...</code></td><td><code>[REDACTED SECRET]</code></td></tr>
+          <tr><td>Credit Card Pattern</td><td>Four groups of four digits</td><td><code>[REDACTED CARD NUMBER]</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout callout-warn">
+      <strong>Limitation:</strong> Pattern-based detection can produce false positives (ordinary text matching
+      a pattern) and false negatives (sensitive data in an unrecognised format). This tool should not be
+      relied upon as the sole detection mechanism in a production system.
+    </div>
+    <p>
+      When the Unified Policy Engine runs, it always performs the sensitive data scan first (Step 1) and
+      passes the <em>redacted</em> copy of the description to the core security engine (Step 2). This ensures
+      that even if a credential bypasses Rule D, it is never stored in plain text.
+    </p>
+  </section>
+
+  
+  <section>
+    <div class="section-number">Section 8</div>
+    <h2 class="section-title">Trust Graph Model</h2>
+    <p>
+      TrustGraph AI provides a directed network model of the fictional AI component ecosystem.
+      It is rendered as an interactive graph using the <strong>pyvis</strong> library (which wraps vis.js).
+    </p>
+
+    <h3>Nodes (7 total)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Node</th><th>Type</th><th>Trust Level</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>AegisAI Chatbot</td><td>chatbot</td><td><span class="badge-allow">HIGH</span></td><td>Primary user-facing chatbot</td></tr>
+          <tr><td>Research Agent</td><td>agent</td><td><span class="badge-med">MEDIUM</span></td><td>Autonomous document retrieval agent</td></tr>
+          <tr><td>Document Reader</td><td>tool</td><td><span class="badge-med">MEDIUM</span></td><td>Reads and parses approved documents</td></tr>
+          <tr><td>Approved Document Store</td><td>data_store</td><td><span class="badge-allow">HIGH</span></td><td>Approved internal document repository</td></tr>
+          <tr><td>Restricted Student Records</td><td>restricted</td><td><span class="badge-block">RESTRICTED</span></td><td>Confidential data — HR access only</td></tr>
+          <tr><td>Approved External API</td><td>external</td><td><span class="badge-med">MEDIUM</span></td><td>Approved 3rd-party weather/public data API</td></tr>
+          <tr><td>Unapproved External Destination</td><td>external</td><td><span class="badge-block">UNTRUSTED</span></td><td>Unreviewed external endpoint — transfers blocked</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Edges (7 total)</h3>
+    <p>
+      Authorised edges (5) are rendered in <strong>cyan</strong>; unauthorised edges (2) are rendered in
+      <strong>red and dashed</strong>. The two unsafe edges map directly to AgentGuard rules:
+    </p>
+    <ul>
+      <li><strong>Research Agent → Restricted Student Records</strong> — triggers Rule C (Unauthorised Agent Access)</li>
+      <li><strong>Research Agent → Unapproved External Destination</strong> — triggers Rule E (Unapproved Data Transfer)</li>
+    </ul>
+    <p>
+      <code>get_permission_findings()</code> surfaces these violations with source/target, relation description,
+      risk explanation, applicable rule, and a mitigation recommendation.
+    </p>
+  </section>
+
+  
+  <section>
+    <div class="section-number">Section 9</div>
+    <h2 class="section-title">Analytics and Evaluation Lab</h2>
+
+    <h3>Analytics Dashboard</h3>
+    <p>
+      <code>_build_analytics_df()</code> merges three session-state sources (security_log, evaluated_df,
+      raw events_df) into a single normalised DataFrame used for all charts and KPI computation.
+    </p>
+    <p>Four Plotly charts are rendered:</p>
+    <ul>
+      <li><strong>Decision Distribution</strong> — Donut chart of ALLOW / FLAG / BLOCK counts</li>
+      <li><strong>Risk Level Distribution</strong> — Donut chart of Low / Medium / High counts</li>
+      <li><strong>Events by Component</strong> — Stacked bar chart: Chatbot vs AI Agent, coloured by decision</li>
+      <li><strong>Top Rules Triggered</strong> — Horizontal bar chart of most-triggered policy rules</li>
+    </ul>
+    <p>An optional time-series line chart renders when timestamp data is available. Filters (Decision, Risk Level, Component, Source) apply to the event records table but not to the charts.</p>
+
+    <h3>Security Evaluation Lab (v1.1)</h3>
+    <p>
+      An expanded test suite of <strong>60 controlled scenarios</strong> (T-01 through T-60) is run against
+      <code>unified_policy_check()</code> at button-click time. Each scenario specifies a unique ID, a named
+      category, the component context, the prompt or action, and the expected decision. The actual decision
+      comes from the live policy engine — nothing is hardcoded.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Category</th><th>Tests</th><th>Expected Decision</th></tr></thead>
+        <tbody>
+          <tr><td>BENIGN — Legitimate requests</td><td>18</td><td><span class="badge-allow">ALLOW</span></td></tr>
+          <tr><td>INJECT — Prompt injection &amp; jailbreak</td><td>12</td><td><span class="badge-flag">FLAG</span> / <span class="badge-block">BLOCK</span></td></tr>
+          <tr><td>CRED — Credential &amp; sensitive data</td><td>11</td><td><span class="badge-flag">FLAG</span> / <span class="badge-block">BLOCK</span></td></tr>
+          <tr><td>ACCESS — Unauthorised access</td><td>8</td><td><span class="badge-flag">FLAG</span> / <span class="badge-block">BLOCK</span></td></tr>
+          <tr><td>EXFIL — Data exfiltration</td><td>5</td><td><span class="badge-block">BLOCK</span></td></tr>
+          <tr><td>TOOL — Agent tool misuse</td><td>6</td><td><span class="badge-block">BLOCK</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The lab now reports the following metrics, all computed from actual engine decisions:</p>
+    <ul>
+      <li>Total tests, correct classifications, incorrect classifications, pass rate</li>
+      <li><strong>False-positive count</strong> — benign requests incorrectly flagged or blocked by the engine</li>
+      <li><strong>False-negative count</strong> — malicious/risky requests that were allowed through</li>
+      <li><strong>Category breakdown table</strong> — pass %, FP count, and FN count per security category</li>
+    </ul>
+    <p>
+      Test cards are grouped by category in collapsible expanders. Results are stored in
+      <code>session_state.eval_lab_results</code> and are <em>not</em> added to the main security event log.
+    </p>
+  </section>
+
+  
+  <section>
+    <div class="section-number">Section 10</div>
+    <h2 class="section-title">Technology Stack</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Component</th><th>Technology</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td>Web Framework</td><td>Streamlit</td><td>Multi-page UI, session state, layout</td></tr>
+          <tr><td>Data Manipulation</td><td>pandas</td><td>DataFrame operations for events, filtering, merging</td></tr>
+          <tr><td>Charts</td><td>Plotly (go + px)</td><td>Donut, bar, and line charts in Analytics</td></tr>
+          <tr><td>Graph Visualisation</td><td>pyvis (wraps vis.js)</td><td>Interactive TrustGraph network diagram</td></tr>
+          <tr><td>Pattern Matching</td><td>Python re (stdlib)</td><td>Sensitive data detection, secret detection</td></tr>
+          <tr><td>HTML Escaping</td><td>Python html (stdlib)</td><td>Sanitising user input before HTML rendering</td></tr>
+          <tr><td>Language</td><td>Python 3.11+</td><td>Application runtime</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout callout-info">
+      No machine learning models, external APIs, or databases are used. All computation is done locally in memory.
+    </div>
+
+    <h3>Installation</h3>
+    <p>Dependencies are installed with a single pip command:</p>
+    <div class="arch-box">pip install streamlit pandas plotly pyvis</div>
+
+    <h3>Running the Application</h3>
+    <div class="arch-box">cd "c:\Users\KIIT\Desktop\IBM_Project"
+streamlit run app.py
+# Then open: http://localhost:8501</div>
+  </section>
+
+  
+  <section>
+    <div class="section-number">Section 11</div>
+    <h2 class="section-title">Sample Data Overview</h2>
+    <p>
+      The application ships with <strong>250 fictional demonstration security events</strong> (EVT-001 through
+      EVT-250) covering six security categories across both the Chatbot and AI Agent components. All events,
+      usernames, timestamps, and descriptions are clearly fictional — no real credentials or personal data.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Security Category</th><th>Count</th><th>Event IDs</th><th>Typical Decision</th></tr></thead>
+        <tbody>
+          <tr><td>Prompt Injection &amp; Jailbreak</td><td>50</td><td>EVT-021 – EVT-070</td><td><span class="badge-block">BLOCK</span></td></tr>
+          <tr><td>Sensitive Data &amp; Credential Exposure</td><td>40</td><td>EVT-071 – EVT-110</td><td><span class="badge-flag">FLAG</span> / <span class="badge-block">BLOCK</span></td></tr>
+          <tr><td>Unauthorised Access &amp; Privilege Violation</td><td>40</td><td>EVT-111 – EVT-150</td><td><span class="badge-block">BLOCK</span></td></tr>
+          <tr><td>Data Exfiltration</td><td>30</td><td>EVT-151 – EVT-180</td><td><span class="badge-block">BLOCK</span></td></tr>
+          <tr><td>Agent Tool Misuse</td><td>30</td><td>EVT-181 – EVT-210</td><td><span class="badge-block">BLOCK</span></td></tr>
+          <tr><td>Benign / Legitimate Operations</td><td>60</td><td>EVT-001–020, EVT-211–250</td><td><span class="badge-allow">ALLOW</span></td></tr>
+          <tr style="font-weight:600;"><td><strong>Total</strong></td><td><strong>250</strong></td><td>EVT-001 – EVT-250</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      The distribution gives a realistic split across all three decisions: benign operations (ALLOW),
+      suspected threats requiring review (FLAG), and confirmed policy violations (BLOCK).
+      This ensures that dashboard metrics, charts, filters, and the detection results table all reflect
+      a diverse and representative dataset.
+    </p>
+    <div class="callout callout-info">
+      <strong>Note:</strong> The original 20 events (EVT-001 – EVT-020) are fully preserved. Events EVT-021
+      onwards are new additions introduced in v1.1. Clicking <strong>Generate Sample Data</strong> on the
+      Overview page loads all 250 events; the success message dynamically shows the actual count.
+    </div>
+  </section>
+
+  
+  <section>
+    <div class="section-number">Section 12</div>
+    <h2 class="section-title">Request Flow through the Policy Engine</h2>
+    <p>
+      Every interactive evaluation (Playground, Sentinel, Data Transfer Check) passes through
+      <code>unified_policy_check()</code>, which orchestrates three sequential steps:
+    </p>
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-num">1</div>
+        <div class="flow-content">
+          <strong>ShadowAI Sentinel — Sensitive Data Scan</strong>
+          <span>Runs <code>detect_sensitive_data()</code> on the raw input. If sensitive data is found, the description is redacted, the decision is escalated to at least FLAG / MEDIUM, and a Sentinel rule entry is added.</span>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">2</div>
+        <div class="flow-content">
+          <strong>Core Security Engine — Rule Evaluation</strong>
+          <span>Runs <code>evaluate_security_event()</code> on the redacted copy. Rules C, E, G, D, B are evaluated in priority order. The highest-priority triggered rule sets the decision. If no rule fires, Rule A or Rule F (ALLOW) is returned.</span>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">3</div>
+        <div class="flow-content">
+          <strong>TrustGraph Heuristic Check</strong>
+          <span>Scans the description for references to RESTRICTED or UNTRUSTED node names. If a match is found, a TrustGraph finding is added and the decision is escalated to at least FLAG / MEDIUM.</span>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">4</div>
+        <div class="flow-content">
+          <strong>Result + Logging</strong>
+          <span>Returns a dict: <code>decision</code>, <code>risk_level</code>, <code>rules[]</code>, <code>explanation</code>, <code>sensitive_scan</code>, <code>timestamp</code>. <code>log_event()</code> appends the redacted result to <code>session_state.security_log</code> with deduplication.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section>
+    <div class="section-number">Section 13</div>
+    <h2 class="section-title">Current Limitations</h2>
+    <div class="callout callout-limit">
+      The following limitations are inherent to the current prototype scope and are acknowledged in the project design.
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Area</th><th>Limitation</th></tr></thead>
+        <tbody>
+          <tr><td>Detection method</td><td>Rule-based keyword and regex matching only. Cannot understand semantics, context, or obfuscated/encoded attacks.</td></tr>
+          <tr><td>False positives</td><td>Ordinary text that happens to match a regex pattern will be flagged.</td></tr>
+          <tr><td>False negatives</td><td>Sensitive data in formats not covered by the current six patterns will not be detected.</td></tr>
+          <tr><td>No real AI model</td><td>All chatbot and agent interactions are entirely simulated. No LLM is integrated.</td></tr>
+          <tr><td>No persistence</td><td>All data is stored in Streamlit session state and is lost when the browser tab is closed or the server restarts.</td></tr>
+          <tr><td>Fictional data only</td><td>All events, users, and resources are fictional demonstration data.</td></tr>
+          <tr><td>Single-file codebase</td><td><code>app.py</code> will need to be split into modules as the project grows.</td></tr>
+          <tr><td>Trust Graph</td><td>The graph is a static demonstration model; it does not discover real system components dynamically.</td></tr>
+          <tr><td>No authentication</td><td>There is no user authentication or multi-user session support.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  
+  <section>
+    <div class="section-number">Section 14</div>
+    <h2 class="section-title">Future Improvements</h2>
+    <ul>
+      <li><strong>Real LLM Integration</strong> — Connect to an AI model (e.g. via IBM watsonx, OpenAI, or Hugging Face API) to provide a working chatbot alongside the security layer.</li>
+      <li><strong>Persistent Storage</strong> — Replace session state with a SQLite or PostgreSQL database for durable event logs.</li>
+      <li><strong>ML-Based Anomaly Detection</strong> — Complement the rule engine with machine-learning models capable of detecting semantic-level attacks.</li>
+      <li><strong>Configurable Policy Rules</strong> — Allow operators to add, edit, and disable policy rules through the dashboard UI without modifying code.</li>
+      <li><strong>Dynamic Trust Graph</strong> — Make the graph editable and able to discover real component relationships from a configuration file or service registry.</li>
+      <li><strong>User Authentication &amp; RBAC</strong> — Add login, multi-user session support, and role-based access control for the dashboard.</li>
+      <li><strong>Agent Framework Integration</strong> — Connect to real agent frameworks (LangChain, AutoGen, IBM Bee Agent) via a middleware interception layer.</li>
+      <li><strong>Export &amp; SIEM Integration</strong> — Export event logs to CSV, JSON, or SIEM-compatible formats (CEF, LEEF) for enterprise monitoring pipelines.</li>
+      <li><strong>Modular Codebase</strong> — Refactor <code>app.py</code> into separate Python modules (engine, sentinel, trustgraph, pages) for maintainability.</li>
+    </ul>
+  </section>
+
+  
+  <section>
+    <div class="section-number">Section 15</div>
+    <h2 class="section-title">Conclusion</h2>
+    <p>
+      AegisAI successfully demonstrates that a practical, lightweight security layer can be built on top of
+      AI chatbot and agent interactions without requiring a live AI model. By combining a priority-ordered
+      rule engine, regex-based sensitive data detection, a trust-graph model of component relationships,
+      and a unified analytics dashboard, the project addresses several of the most pressing real-world AI
+      security concerns.
+    </p>
+    <p>
+      The prototype establishes a working architecture — <em>Scan → Evaluate → Log → Visualise</em> — that
+      scales naturally toward a production system. The clear separation between the policy engine, the
+      Sentinel scanner, and the TrustGraph model means each layer can be independently enhanced or replaced
+      as the project matures.
+    </p>
+    <p>
+      As a teaching and demonstration tool, AegisAI provides a tangible, interactive reference for AI
+      security concepts: showing not just that threats exist, but how detection and enforcement logic can
+      be practically implemented and surfaced to security operators.
+    </p>
+    <div class="callout callout-info">
+      <strong>Repository:</strong> <code>IBM_Project/app.py</code> — single-file Streamlit application, Python 3.11+, ~6,500 lines (v1.1). Run with: <code>streamlit run app.py</code>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- Changelog -->
+  <section>
+    <div class="section-number">Appendix</div>
+    <h2 class="section-title">Changelog</h2>
+
+    <h3>v1.1 (current)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Area</th><th>Change</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Sample Dataset</strong></td>
+            <td>
+              Expanded <code>SAMPLE_EVENTS</code> from 20 to <strong>250</strong> fictional events (EVT-001 – EVT-250)
+              covering six security categories: Prompt Injection/Jailbreak (50), Sensitive Data/Credentials (40),
+              Unauthorised Access (40), Data Exfiltration (30), Agent Tool Misuse (30), Benign Operations (60).
+              All event IDs are unique; no real credentials or personal data. Dynamic success messages now show
+              the actual loaded count rather than a hardcoded "20".
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Detection Engine</strong></td>
+            <td>
+              <code>_JAILBREAK_PHRASES</code> expanded from ~9 to <strong>45+ entries</strong>.
+              <code>_EXTRACTION_PHRASES</code> expanded from ~11 to <strong>70+ entries</strong>.
+              <code>_RECON_PHRASES</code> expanded from ~6 to <strong>18+ entries</strong>.
+              Key new detections: <code>"ignore all previous instructions and"</code>,
+              <code>"reveal the confidential system prompt"</code>, <code>"bypass your safety rules"</code>,
+              <code>"output all passwords"</code>, <code>"disregard your guidelines and"</code>,
+              <code>"generate unrestricted output"</code>, <code>"send confidential"</code>, and many more.
+              Zero false positives confirmed against 8 benign educational prompts.
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Evaluation Lab</strong></td>
+            <td>
+              Expanded from <strong>5</strong> to <strong>60</strong> test scenarios (T-01 – T-60) across
+              six named categories (BENIGN, INJECT, CRED, ACCESS, EXFIL, TOOL). Each scenario has a unique ID,
+              category tag, component context, prompt, and expected decision. All actual results come from the
+              live policy engine — nothing is hardcoded. Confirmed 60/60 pass rate on execution.
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Evaluation Reporting</strong></td>
+            <td>
+              New summary card shows: total tests, correct/incorrect classifications, pass rate,
+              <strong>false-positive count</strong> (benign requests blocked/flagged),
+              <strong>false-negative count</strong> (threats allowed through), and a
+              <strong>category breakdown table</strong> with per-category pass %, FP, and FN.
+              All values computed from actual engine decisions — not fabricated.
+              Test cards grouped by category in collapsible expanders.
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Documentation</strong></td>
+            <td>
+              <code>README.md</code> and <code>aegisai-project-report.html</code> updated to reflect all
+              v1.1 changes: new dataset distribution table, phrase list counts, evaluation lab category table,
+              revised demonstration instructions, updated file structure, and a changelog section.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>v1.0</h3>
+    <p>Initial release: 20 sample events, 5 evaluation scenarios, base detection engine, full dashboard.</p>
+  </section>
+
+  <hr />
+
+  
+  <div class="footer">
+    Made with IBM Bob
+  </div>
+
+</div>
+</body>
+</html>
